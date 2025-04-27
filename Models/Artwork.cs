@@ -8,7 +8,10 @@ public class Artwork
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
-    public int PortfolioId { get; set; }
+    public int ArtistId { get; set; }
+    public User? Artist { get; set; }
+    
+    public int? PortfolioId { get; set; }
     public Portfolio? Portfolio { get; set; }
     
     public int CategoryId { get; set; }

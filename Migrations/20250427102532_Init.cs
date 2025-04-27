@@ -90,7 +90,7 @@ namespace ArtUnion_API.Migrations
                         column: x => x.SubscriberId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,9 +103,9 @@ namespace ArtUnion_API.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PortfolioId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    ArtistId = table.Column<int>(type: "int", nullable: false),
+                    PortfolioId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,10 +123,11 @@ namespace ArtUnion_API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Artworks_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Artworks_Users_ArtistId",
+                        column: x => x.ArtistId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -149,14 +150,19 @@ namespace ArtUnion_API.Migrations
                         column: x => x.ArtworkId,
                         principalTable: "Artworks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Critiques_Users_CriticId",
                         column: x => x.CriticId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Artworks_ArtistId",
+                table: "Artworks",
+                column: "ArtistId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Artworks_CategoryId",
@@ -167,11 +173,6 @@ namespace ArtUnion_API.Migrations
                 name: "IX_Artworks_PortfolioId",
                 table: "Artworks",
                 column: "PortfolioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Artworks_UserId",
-                table: "Artworks",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Critiques_ArtworkId",

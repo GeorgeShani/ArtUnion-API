@@ -30,6 +30,9 @@ namespace ArtUnion_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -43,23 +46,20 @@ namespace ArtUnion_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PortfolioId")
+                    b.Property<int?>("PortfolioId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtistId");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("PortfolioId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Artworks");
                 });
@@ -212,6 +212,12 @@ namespace ArtUnion_API.Migrations
 
             modelBuilder.Entity("ArtUnion_API.Models.Artwork", b =>
                 {
+                    b.HasOne("ArtUnion_API.Models.User", "Artist")
+                        .WithMany("Artworks")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ArtUnion_API.Models.Category", "Category")
                         .WithMany("Artworks")
                         .HasForeignKey("CategoryId")
@@ -221,12 +227,9 @@ namespace ArtUnion_API.Migrations
                     b.HasOne("ArtUnion_API.Models.Portfolio", "Portfolio")
                         .WithMany("Artworks")
                         .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ArtUnion_API.Models.User", null)
-                        .WithMany("Artworks")
-                        .HasForeignKey("UserId");
+                    b.Navigation("Artist");
 
                     b.Navigation("Category");
 
@@ -238,13 +241,13 @@ namespace ArtUnion_API.Migrations
                     b.HasOne("ArtUnion_API.Models.Artwork", "Artwork")
                         .WithMany("Critiques")
                         .HasForeignKey("ArtworkId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArtUnion_API.Models.User", "Critic")
                         .WithMany("Critiques")
                         .HasForeignKey("CriticId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Artwork");
@@ -272,9 +275,9 @@ namespace ArtUnion_API.Migrations
                         .IsRequired();
 
                     b.HasOne("ArtUnion_API.Models.User", "Subscriber")
-                        .WithMany("Subscriptions")
+                        .WithMany("Following")
                         .HasForeignKey("SubscriberId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -305,9 +308,9 @@ namespace ArtUnion_API.Migrations
 
                     b.Navigation("Followers");
 
-                    b.Navigation("Portfolios");
+                    b.Navigation("Following");
 
-                    b.Navigation("Subscriptions");
+                    b.Navigation("Portfolios");
                 });
 #pragma warning restore 612, 618
         }

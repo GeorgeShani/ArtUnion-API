@@ -22,5 +22,5 @@ public class User
     public ICollection<Critique>? Critiques { get; set; }
     public ICollection<Portfolio>? Portfolios { get; set; }
     public ICollection<Subscription>? Followers { get; set; }
-    public ICollection<Subscription>? Subscriptions { get; set; }
+    public ICollection<Subscription>? Following { get; set; }
 }
