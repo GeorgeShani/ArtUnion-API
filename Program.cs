@@ -1,8 +1,9 @@
+using Amazon.S3;
+using FluentValidation;
 using ArtUnion_API.Data;
 using ArtUnion_API.Configs;
 using ArtUnion_API.Services.Interfaces;
 using ArtUnion_API.Services.Implementation;
-using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAmazonS3Service, AmazonS3Service>();
 builder.Services.AddDbContext<DataContext>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
