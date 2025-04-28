@@ -14,8 +14,8 @@ public class JwtService : IJwtService
         var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY")!;
         var expirationTime = Environment.GetEnvironmentVariable("JWT_EXPIRATION_TIME")!;
         
-        const string issuer = "api.artunion.com";
-        const string audience = "artunion.com";
+        var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER")!;
+        var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")!;
         
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -36,7 +36,7 @@ public class JwtService : IJwtService
             claims: claims,
             expires: expirationDate,
             signingCredentials: credentials 
-            );
+        );
         
         var token = new JwtSecurityTokenHandler().WriteToken(tokenObject);
         return token;
