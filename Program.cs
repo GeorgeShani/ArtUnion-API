@@ -1,3 +1,4 @@
+using ArtUnion_API.Data;
 using ArtUnion_API.Configs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,8 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.AddStringEnumConverter());
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<DataContext>();
+
+builder.Configuration.AddEnvironmentVariables();
 
 var app = builder.Build();
 

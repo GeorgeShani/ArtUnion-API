@@ -8,6 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.400" />
+        <PackageReference Include="AWSSDK.S3" Version="3.7.416.16" />
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
+        <PackageReference Include="FluentValidation" Version="11.11.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
@@ -16,6 +24,18 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+      <Folder Include="DTOs\" />
+      <Folder Include="Helpers\" />
+      <Folder Include="Requests\POST\" />
+      <Folder Include="Requests\PUT\" />
+      <Folder Include="Services\Implementation\" />
+      <Folder Include="Services\Interfaces\" />
+      <Folder Include="Validation\" />
     </ItemGroup>
 
 </Project>
