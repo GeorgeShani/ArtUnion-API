@@ -29,12 +29,9 @@
 
     <ItemGroup>
       <Folder Include="Controllers\" />
-      <Folder Include="DTOs\" />
       <Folder Include="Helpers\" />
       <Folder Include="Requests\POST\" />
       <Folder Include="Requests\PUT\" />
-      <Folder Include="Services\Implementation\" />
-      <Folder Include="Services\Interfaces\" />
       <Folder Include="Validation\" />
     </ItemGroup>
 
