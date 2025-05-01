@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAmazonS3Service, AmazonS3Service>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddDbContext<DataContext>();
