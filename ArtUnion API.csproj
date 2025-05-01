@@ -28,10 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-      <Folder Include="Requests\POST\" />
       <Folder Include="Requests\PUT\" />
-      <Folder Include="Validation\" />
     </ItemGroup>
 
 </Project>
