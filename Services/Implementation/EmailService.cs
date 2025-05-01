@@ -23,7 +23,7 @@ public class EmailService : IEmailService
         };
     }
 
-    public async Task SendEmail(string to, string subject, string message)
+    public async Task SendEmailAsync(string to, string subject, string message)
     {
         using var mailMessage = new MailMessage();
         mailMessage.From = new MailAddress(smtpUsername);
