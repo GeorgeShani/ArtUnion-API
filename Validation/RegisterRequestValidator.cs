@@ -31,6 +31,10 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
             .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
             .Matches("[0-9]").WithMessage("Password must contain at least one digit.")
             .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
+        
+        RuleFor(x => x.Role)
+            .IsInEnum()
+            .WithMessage("Invalid role specified.");
 
         RuleFor(x => x.Biography)
             .MaximumLength(500).WithMessage("Biography cannot exceed 500 characters.")

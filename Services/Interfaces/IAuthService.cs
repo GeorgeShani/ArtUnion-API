@@ -5,6 +5,6 @@ namespace ArtUnion_API.Services.Interfaces;
 
 public interface IAuthService
 {
-    AuthDTO SignUp(RegisterRequest request);
-    AuthDTO LogIn(LoginRequest request);
+    Task<AuthDTO> SignUp(RegisterRequest request);
+    Task<AuthDTO> LogIn(LoginRequest request);
 }

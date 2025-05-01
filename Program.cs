@@ -7,6 +7,8 @@ using ArtUnion_API.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
+DotNetEnv.Env.Load();
+
 builder.Services.AddControllers().AddJsonOptions(options => 
     options.AddStringEnumConverter()
 );

@@ -1,4 +1,5 @@
 ﻿using ArtUnion_API.Data;
+using System.Linq.Expressions;
 using ArtUnion_API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,11 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task<T?> GetByIdAsync(int id)
     {
         return await _dbSet.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+    }
+
+    public async Task<T?> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<T> CreateAsync(T entity)
