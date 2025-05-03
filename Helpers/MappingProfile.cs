@@ -20,7 +20,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.ProfilePictureUrl, opt => opt.Ignore()) // handle file upload manually
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) =>
                 srcMember != null && 
-                !(srcMember is string str && string.IsNullOrWhiteSpace(str))
+                !(srcMember is string str && string.IsNullOrEmpty(str))
             ));
     }
 }
