@@ -39,9 +39,7 @@ public class AuthService : IAuthService
     {
         var validationResult = await _registerRequestValidator.ValidateAsync(request);
         if (!validationResult.IsValid)
-        {
             throw new ValidationException(validationResult.Errors);
-        }
 
         string? avatarUrl = null;
         if (request.ProfilePicture != null)
@@ -71,15 +69,11 @@ public class AuthService : IAuthService
     {
         var validationResult = await _loginRequestValidator.ValidateAsync(request);
         if (!validationResult.IsValid)
-        {
             throw new ValidationException(validationResult.Errors);
-        }
 
         var existingUser = await _userRepository.FirstOrDefaultAsync(u => u.Email == request.Email);
         if (existingUser == null || !BCrypt.Net.BCrypt.Verify(request.Password, existingUser.Password))
-        {
             throw new UnauthorizedAccessException("Invalid email or password.");
-        }
         
         return MapToAuthDTO(existingUser);       
     }

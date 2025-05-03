@@ -41,7 +41,14 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
             .When(x => !string.IsNullOrEmpty(x.Biography));
 
         RuleFor(x => x.ProfilePicture)
+            .Must(BeAValidImage)
             .Must(file => file is not { Length: > 6 * 1024 * 1024 }) // 6MB max
             .WithMessage("Profile picture size cannot exceed 6MB.");
     }   
+    
+    private static bool BeAValidImage(IFormFile? file)
+    {
+        var allowedTypes = new[] { "image/jpeg", "image/png", "image/jpg" };
+        return allowedTypes.Contains(file?.ContentType.ToLower());
+    }
 }
