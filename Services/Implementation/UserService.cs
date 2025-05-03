@@ -1,7 +1,9 @@
-﻿using FluentValidation;
+﻿using ArtUnion_API.DTOs;
+using FluentValidation;
 using ArtUnion_API.Models;
 using ArtUnion_API.Requests.PUT;
 using ArtUnion_API.Services.Interfaces;
+using AutoMapper;
 
 namespace ArtUnion_API.Services.Implementation;
 
@@ -10,28 +12,35 @@ public class UserService : IUserService
     private readonly IValidator<UpdateUserRequest> _updateUserRequestValidator;
     private readonly IAmazonS3Service _amazonS3Service;
     private readonly IRepository<User> _userRepository;
+    private readonly IMapper _mapper;
 
     public UserService(
         IRepository<User> userRepository, 
         IAmazonS3Service amazonS3Service, 
-        IValidator<UpdateUserRequest> updateUserRequestValidator
+        IValidator<UpdateUserRequest> updateUserRequestValidator, 
+        IMapper mapper
     ) {
         _userRepository = userRepository;
         _amazonS3Service = amazonS3Service;
         _updateUserRequestValidator = updateUserRequestValidator;
+        _mapper = mapper;
     }
 
-    public async Task<List<User>> GetAllUsers()
+    public async Task<List<UserDTO>> GetAllUsers()
     {
-        return await _userRepository.GetAllAsync();
+        var users = await _userRepository.GetAllAsync();
+        var userDtos = _mapper.Map<List<UserDTO>>(users);
+        return userDtos;       
     }
 
-    public async Task<User?> GetUserById(int id)
+    public async Task<UserDTO?> GetUserById(int id)
     {
-        return await _userRepository.GetByIdAsync(id);
+        var user = await _userRepository.GetByIdAsync(id);
+        var userDto = _mapper.Map<UserDTO>(user);
+        return userDto;       
     }
 
-    public async Task<User> UpdateUser(int id, UpdateUserRequest request)
+    public async Task<UserDTO> UpdateUser(int id, UpdateUserRequest request)
     {
         var validationResult = await _updateUserRequestValidator.ValidateAsync(request);
         if (!validationResult.IsValid)
@@ -41,10 +50,7 @@ public class UserService : IUserService
         if (user == null)
             throw new Exception("User not found.");
         
-        SetIfNotEmpty(request.FirstName, val => user.FirstName = val);
-        SetIfNotEmpty(request.LastName, val => user.LastName = val);
-        SetIfNotEmpty(request.Username, val => user.Username = val);
-        SetIfNotEmpty(request.Biography, val => user.Biography = val);
+        user = _mapper.Map(request, user);
         
         if (!string.IsNullOrWhiteSpace(request.Password))
             user.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -60,20 +66,16 @@ public class UserService : IUserService
         }
         
         var updatedUser = await _userRepository.UpdateAsync(user);
-        return updatedUser;       
+        var userDto = _mapper.Map<UserDTO>(updatedUser);
+        return userDto;       
     }
 
-    public async Task<User> DeleteUser(int id)
+    public async Task<UserDTO> DeleteUser(int id)
     {
         var user = await _userRepository.GetByIdAsync(id);
         if (user == null)
             throw new Exception("User not found.");
         
-        return await _userRepository.DeleteAsync(user);;       
-    }
-    
-    private static void SetIfNotEmpty(string? value, Action<string> setter)
-    {
-        if (!string.IsNullOrWhiteSpace(value)) setter(value);
+        return _mapper.Map<UserDTO>(await _userRepository.DeleteAsync(user));       
     }
 }

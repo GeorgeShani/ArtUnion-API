@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ArtUnion_API.Configs;
 
 public static class JsonOptionsConfig
 {
-    public static void AddStringEnumConverter(this JsonOptions options)
+    public static void AddCustomJsonOptions(this IServiceCollection services)
     {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
     }
 }
