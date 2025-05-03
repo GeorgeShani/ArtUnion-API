@@ -25,8 +25,8 @@ public class Repository<T> : IRepository<T> where T : class
     {
         return await _dbSet.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
     }
-
-    public async Task<T?> FindAsync(Expression<Func<T, bool>> predicate)
+    
+    public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
     {
         return await _dbSet.FirstOrDefaultAsync(predicate);
     }

@@ -75,7 +75,7 @@ public class AuthService : IAuthService
             throw new ValidationException(validationResult.Errors);
         }
 
-        var existingUser = await _userRepository.FindAsync(u => u.Email == request.Email);
+        var existingUser = await _userRepository.FirstOrDefaultAsync(u => u.Email == request.Email);
         if (existingUser == null || !BCrypt.Net.BCrypt.Verify(request.Password, existingUser.Password))
         {
             throw new UnauthorizedAccessException("Invalid email or password.");
