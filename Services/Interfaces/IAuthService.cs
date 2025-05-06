@@ -7,4 +7,5 @@ public interface IAuthService
 {
     Task<AuthDTO> SignUp(RegisterRequest request);
     Task<AuthDTO> LogIn(LoginRequest request);
+    Task<AuthDTO> VerifyEmail(string verificationCode);
 }

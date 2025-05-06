@@ -18,4 +18,5 @@ public class Artwork
     public Category? Category { get; set; }
     
     public ICollection<Critique>? Critiques { get; set; }
+    public ICollection<ArtworkLike>? Likes { get; set; }
 }

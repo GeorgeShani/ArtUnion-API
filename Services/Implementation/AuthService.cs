@@ -1,9 +1,11 @@
-﻿using ArtUnion_API.DTOs;
+﻿using AutoMapper;
+using FluentValidation;
+using ArtUnion_API.DTOs;
 using ArtUnion_API.Models;
+using ArtUnion_API.Configs;
+using ArtUnion_API.Helpers;
 using ArtUnion_API.Requests.POST;
 using ArtUnion_API.Services.Interfaces;
-using AutoMapper;
-using FluentValidation;
 
 namespace ArtUnion_API.Services.Implementation;
 
@@ -54,12 +56,14 @@ public class AuthService : IAuthService
         var user = _mapper.Map<User>(request);
         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         user.ProfilePictureUrl = avatarUrl;
+        user.VerificationCode = VerificationCodeGenerator.Generate6DigitCode();
+        user.CodeDeadline = DateTime.UtcNow.AddDays(1);
         
         await _userRepository.CreateAsync(user);
         await _emailService.SendEmailAsync(
             user.Email, 
-            "Welcome to ArtUnion!", 
-            $"Welcome to ArtUnion, {user.FirstName} ❤️❤️❤️"
+            "Welcome to ArtUnion 🎨 – Let’s Verify Your Email",
+            EmailTemplates.VerifyEmail(user)
         );
         
         return MapToAuthDTO(user);       
@@ -77,6 +81,31 @@ public class AuthService : IAuthService
         
         return MapToAuthDTO(existingUser);       
     }
+    
+    public async Task<AuthDTO> VerifyEmail(string verificationCode)
+    {
+        if (string.IsNullOrWhiteSpace(verificationCode))
+            throw new ArgumentException("Verification code is required.", nameof(verificationCode));
+
+        var user = await _userRepository.FirstOrDefaultAsync(u => u.VerificationCode == verificationCode);
+        if (user is null)
+            throw new InvalidOperationException("Invalid or expired verification code.");
+
+        if (user.IsVerified)
+            throw new InvalidOperationException("User is already verified.");
+
+        if (user.CodeDeadline < DateTime.UtcNow)
+            throw new InvalidOperationException("Verification code has expired.");
+
+        user.IsVerified = true;
+        user.VerifiedAt = DateTime.UtcNow;
+        user.VerificationCode = null;
+        user.CodeDeadline = null;
+
+        await _userRepository.UpdateAsync(user);
+        return MapToAuthDTO(user);
+    }
+
 
     private AuthDTO MapToAuthDTO(User user)
     {

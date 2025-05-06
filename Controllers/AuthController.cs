@@ -1,7 +1,7 @@
-﻿using ArtUnion_API.Requests.POST;
-using ArtUnion_API.Services.Interfaces;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using ArtUnion_API.Requests.POST;
+using ArtUnion_API.Services.Interfaces;
 
 namespace ArtUnion_API.Controllers;
 
@@ -45,6 +45,21 @@ public class AuthController(IAuthService authService) : ControllerBase
             {
                 Errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage })
             });
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions (e.g., authentication failure) separately
+            return StatusCode(500, new { Message = "Internal Server Error", Details = ex.Message });
+        }
+    }
+    
+    [HttpPost("verify-email")]
+    public async Task<IActionResult> VerifyEmail([FromBody] string verificationCode)
+    {
+        try
+        {
+            var result = await authService.VerifyEmail(verificationCode);
+            return Ok(result); // Returns 200 OK with the AuthDTO
         }
         catch (Exception ex)
         {

@@ -17,9 +17,15 @@ public class User
     
     public Role Role { get; set; }
     
+    public bool IsVerified { get; set; }
+    public string? VerificationCode { get; set; }
+    public DateTime? CodeDeadline { get; set; }
+    public DateTime? VerifiedAt { get; set; }
+    
     public ICollection<Artwork>? Artworks { get; set; }
     public ICollection<Critique>? Critiques { get; set; }
     public ICollection<Portfolio>? Portfolios { get; set; }
     public ICollection<Subscription>? Followers { get; set; }
     public ICollection<Subscription>? Following { get; set; }
+    public ICollection<ArtworkLike>? LikedArtworks { get; set; }
 }
