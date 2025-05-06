@@ -4,6 +4,10 @@ namespace ArtUnion_API.Services.Interfaces;
 
 public interface IRepository<T>
 {
+    // Query methods for LINQ support
+    IQueryable<T> Query();
+    IQueryable<T> Query(Expression<Func<T, bool>> predicate);
+    
     Task<List<T>> GetAllAsync();
     Task<T?> GetByIdAsync(int id);
     Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);

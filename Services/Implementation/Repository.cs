@@ -10,6 +10,18 @@ public class Repository<T> : IRepository<T> where T : class
     private readonly DataContext _context;
     private readonly DbSet<T> _dbSet;
 
+    // This method allows you to use LINQ methods directly
+    public IQueryable<T> Query()
+    {
+        return _dbSet.AsQueryable();
+    }
+    
+    // This method allows you to get filtered data with LINQ expressions
+    public IQueryable<T> Query(Expression<Func<T, bool>> predicate)
+    {
+        return _dbSet.Where(predicate);
+    }
+    
     public Repository(DataContext context)
     {
         _context = context;
