@@ -32,5 +32,7 @@ public class MappingProfile : Profile
         CreateMap<Artwork, ArtworkDTO>();
         
         CreateMap<Category, CategoryDTO>();
+        
+        CreateMap<Subscription, SubscriptionDTO>();
     }
 }
