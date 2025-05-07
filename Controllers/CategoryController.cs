@@ -45,6 +45,7 @@ public class CategoryController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> CreateCategory([FromBody] string name)
     {
         try
@@ -60,6 +61,7 @@ public class CategoryController : ControllerBase
 
     [HttpPut("{id:int}")]
     [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> UpdateCategory(int id, [FromBody] string name)
     {
         try
@@ -75,6 +77,7 @@ public class CategoryController : ControllerBase
     
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> DeleteCategory(int id)
     {
         try

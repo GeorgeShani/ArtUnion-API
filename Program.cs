@@ -30,6 +30,7 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddJwtBearerAuthentication();
+builder.Services.AddAuthorizationConfiguration();
 builder.Services.AddHangfireConfiguration();
 builder.Services.AddHangfireServer(); 
 builder.Configuration.AddEnvironmentVariables();

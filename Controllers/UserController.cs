@@ -19,6 +19,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> GetAllUsers()
     {
         try
@@ -47,6 +48,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Policy = "EmailVerified")]
     [Authorize(Roles = "Admin, Artist, Critic")]
     public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserRequest request)
     {
@@ -70,6 +72,7 @@ public class UserController : ControllerBase
     
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> DeleteUser(int id)
     {
         try

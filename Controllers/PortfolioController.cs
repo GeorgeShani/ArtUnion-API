@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ArtUnion_API.Requests.PUT;
 using ArtUnion_API.Requests.POST;
 using ArtUnion_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArtUnion_API.Controllers;
 
@@ -46,6 +47,8 @@ public class PortfolioController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Artist, Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> CreatePortfolio([FromBody] CreatePortfolioRequest request)
     {
         try
@@ -67,6 +70,8 @@ public class PortfolioController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Artist, Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> UpdatePortfolio(int id, [FromBody] UpdatePortfolioRequest request)
     {
         try
@@ -88,6 +93,8 @@ public class PortfolioController : ControllerBase
     }
     
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Artist, Admin")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> DeletePortfolio(int id)
     {
         try
