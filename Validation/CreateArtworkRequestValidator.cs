@@ -5,15 +5,19 @@ namespace ArtUnion_API.Validation;
 
 public class CreateArtworkRequestValidator : AbstractValidator<CreateArtworkRequest>
 {
+    private static readonly string[] AllowedExtensions = [".jpg", ".jpeg", ".png"];
+
     public CreateArtworkRequestValidator()
     {
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required.")
             .MaximumLength(100).WithMessage("Title must be 100 characters or fewer.");
 
-        RuleFor(x => x.ImageUrl)
-            .NotEmpty().WithMessage("Image URL is required.")
-            .Must(BeAValidUrl).WithMessage("Image URL must be a valid URL.");
+        RuleFor(x => x.Image)
+            .NotNull().WithMessage("Image is required.")
+            .Must(BeAValidImage).WithMessage("Only JPG and PNG images are allowed.")
+            .Must(f => f.Length <= 12 * 1024 * 1024) // 12MB
+            .WithMessage("Image size must not exceed 12 MB.");
 
         RuleFor(x => x.Description)
             .MaximumLength(1000).WithMessage("Description must be 1000 characters or fewer.")
@@ -30,9 +34,9 @@ public class CreateArtworkRequestValidator : AbstractValidator<CreateArtworkRequ
             .GreaterThan(0).WithMessage("CategoryId must be a positive number.");
     }
 
-    private static bool BeAValidUrl(string url)
+    private static bool BeAValidImage(IFormFile file)
     {
-        return Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
-               && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        var extension = Path.GetExtension(file.FileName).ToLower();
+        return AllowedExtensions.Contains(extension);
     }
 }
