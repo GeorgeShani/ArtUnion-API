@@ -1,6 +1,6 @@
-﻿using ArtUnion_API.Requests.PUT;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using ArtUnion_API.Requests.PUT;
 using ArtUnion_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 

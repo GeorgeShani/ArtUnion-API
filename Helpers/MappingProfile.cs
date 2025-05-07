@@ -18,9 +18,19 @@ public class MappingProfile : Profile
         CreateMap<UpdateUserRequest, User>()
             .ForMember(dest => dest.Password, opt => opt.Ignore()) // handle password manually
             .ForMember(dest => dest.ProfilePictureUrl, opt => opt.Ignore()) // handle file upload manually
-            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) =>
+            .ForAllMembers(opts => opts.Condition((_, _, srcMember) =>
                 srcMember != null && 
                 !(srcMember is string str && string.IsNullOrEmpty(str))
             ));
+        
+        CreateMap<CreatePortfolioRequest, Portfolio>();
+        CreateMap<UpdatePortfolioRequest, Portfolio>();
+        CreateMap<Portfolio, PortfolioDTO>();
+        
+        CreateMap<CreateArtworkRequest, Artwork>();
+        CreateMap<UpdateArtworkRequest, Artwork>();
+        CreateMap<Artwork, ArtworkDTO>();
+        
+        CreateMap<Category, CategoryDTO>();
     }
 }
