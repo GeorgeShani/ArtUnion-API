@@ -66,7 +66,7 @@ public class AuthService : IAuthService
             EmailTemplates.VerifyEmail(user)
         );
         
-        return MapToAuthDTO(user);       
+        return _mapper.Map<AuthDTO>(user);       
     }
 
     public async Task<AuthDTO> LogIn(LoginRequest request)
