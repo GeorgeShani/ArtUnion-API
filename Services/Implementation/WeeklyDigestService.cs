@@ -36,6 +36,11 @@ public class WeeklyDigestService : IWeeklyDigestService
 
             // Get popular artworks based on likes and comments from the last week
             var popularArtworks = await GetPopularArtworksAsync();
+            if (popularArtworks.Count == 0)
+            {
+                _logger.LogInformation("No popular artworks this week. Skipping weekly digest.");
+                return;
+            }
 
             // Get all users
             var users = await _userRepository.Query()
