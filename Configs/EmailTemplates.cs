@@ -164,13 +164,15 @@ public static class EmailTemplates
 
         foreach (var art in artworks)
         {
+            var artworkAvgRating = art.Critiques!.Average(critique => critique.Rating);
+          
             artworksHtml.Append($"""
             <div style="margin-bottom: 30px; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden;">
                 <img src="{art.ImageUrl}" alt="{art.Title}" style="width: 100%; max-height: 300px; object-fit: cover;">
                 <div style="padding: 15px;">
                   <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: bold; color: #4c1d95; margin: 0 0 5px 0;">{art.Title}</h3>
                   <p style="font-size: 14px; color: #6b7280; margin: 0;">by {art.Artist!.FirstName} {art.Artist.LastName}</p>
-                  <p style="margin-top: 10px; line-height: 1.7;">❤️ {art.Likes!.Count} likes &nbsp; 💬 {art.Critiques!.Count} comments</p>
+                  <p style="margin-top: 10px; line-height: 1.7;">❤️ {art.Likes!.Count} likes &nbsp; 💬 {art.Critiques!.Count} comments &nbsp; ⭐ {artworkAvgRating}</p>
                 </div>
             </div>
             """);
