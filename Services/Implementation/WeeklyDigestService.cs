@@ -43,8 +43,8 @@ public class WeeklyDigestService : IWeeklyDigestService
             }
 
             // Get all users
-            var users = await _userRepository.Query()
-                .Where(u => u.IsVerified && u.Role != Role.Admin)
+            var users = await _userRepository
+                .Query(u => u.IsVerified && u.Role != Role.Admin)
                 .ToListAsync();
 
             _logger.LogInformation("Sending weekly digest to {UsersCount} users", users.Count);

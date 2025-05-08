@@ -26,8 +26,7 @@ public class SubscriptionService : ISubscriptionService
     public async Task<List<SubscriptionDTO>> GetArtistSubscriptions(int artistId)
     {
         var artistSubscribers = await _subscriptionRepository
-            .Query()
-            .Where(s => s.ArtistId == artistId)
+            .Query(s => s.ArtistId == artistId)
             .ToListAsync();
         
         return _mapper.Map<List<SubscriptionDTO>>(artistSubscribers);       
@@ -43,8 +42,7 @@ public class SubscriptionService : ISubscriptionService
             throw new UnauthorizedAccessException("User is not authenticated.");
 
         var subscriptions = await _subscriptionRepository
-            .Query()
-            .Where(s => s.SubscriberId == int.Parse(authenticatedUserId))
+            .Query(s => s.SubscriberId == int.Parse(authenticatedUserId))
             .ToListAsync();
         
         return _mapper.Map<List<SubscriptionDTO>>(subscriptions);       
@@ -78,7 +76,7 @@ public class SubscriptionService : ISubscriptionService
         if (!int.TryParse(authenticatedUserId, out var subscriberId))
             throw new UnauthorizedAccessException("User is not authenticated or ID is invalid.");
 
-        var subscription = await _subscriptionRepository.Query()
+        var subscription = await _subscriptionRepository
             .FirstOrDefaultAsync(s => s.ArtistId == artistId && s.SubscriberId == subscriberId);
         
         if (subscription == null)
