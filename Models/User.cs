@@ -1,5 +1,4 @@
 ﻿using ArtUnion_API.Enums;
-using System.Text.Json.Serialization;
 
 namespace ArtUnion_API.Models;
 
