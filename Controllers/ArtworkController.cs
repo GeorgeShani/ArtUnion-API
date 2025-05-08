@@ -46,13 +46,27 @@ public class ArtworkController : ControllerBase
         }
     }
 
-    [HttpGet("{categoryId:int}")]
+    [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetArtworksByCategoryId(int categoryId)
     {
         try
         {
             var result = await _artworkService.GetArtworksByCategory(categoryId);
             return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Message = "Internal Server Error", Details = ex.Message });
+        }
+    }
+
+    [HttpPost("{artworkId:int}/like")]
+    public async Task<IActionResult> ToggleArtworkLike(int artworkId)
+    {
+        try
+        {
+            var liked = await _artworkService.ToggleArtworkLike(artworkId);
+            return Ok(new { liked });
         }
         catch (Exception ex)
         {

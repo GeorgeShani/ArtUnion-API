@@ -16,6 +16,7 @@ public class ArtworkService : IArtworkService
     private readonly IRepository<User> _userRepository;
     private readonly IValidator<CreateArtworkRequest> _createArtworkRequestValidator;
     private readonly IValidator<UpdateArtworkRequest> _updateArtworkRequestValidator;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IAmazonS3Service _amazonS3Service;
     private readonly IEmailService _emailService;
     private readonly IMapper _mapper;
@@ -25,6 +26,7 @@ public class ArtworkService : IArtworkService
         IRepository<User> userRepository,
         IValidator<CreateArtworkRequest> createArtworkRequestValidator, 
         IValidator<UpdateArtworkRequest> updateArtworkRequestValidator, 
+        IHttpContextAccessor httpContextAccessor,
         IAmazonS3Service amazonS3Service,
         IEmailService emailService,
         IMapper mapper
@@ -33,6 +35,7 @@ public class ArtworkService : IArtworkService
         _userRepository = userRepository;
         _createArtworkRequestValidator = createArtworkRequestValidator;
         _updateArtworkRequestValidator = updateArtworkRequestValidator;
+        _httpContextAccessor = httpContextAccessor;
         _amazonS3Service = amazonS3Service;
         _emailService = emailService;
         _mapper = mapper;
@@ -109,6 +112,39 @@ public class ArtworkService : IArtworkService
             .ToListAsync();
         
         return _mapper.Map<List<ArtworkDTO>>(artworksByCategory);
+    }
+    
+    public async Task<bool> ToggleArtworkLike(int artworkId)
+    {
+        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst("id")?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+            throw new UnauthorizedAccessException("User is not authenticated.");
+
+        var artwork = await _artworkRepository.Query()
+            .Include(a => a.Likes)
+            .FirstOrDefaultAsync(a => a.Id == artworkId);
+
+        if (artwork == null)
+            throw new Exception("Artwork not found.");
+
+        var existingLike = artwork.Likes?.FirstOrDefault(like => like.UserId == userId);
+        if (existingLike != null)
+        {
+            artwork.Likes!.Remove(existingLike);
+        }
+        else
+        {
+            artwork.Likes ??= new List<ArtworkLike>();
+            artwork.Likes.Add(new ArtworkLike
+            {
+                ArtworkId = artworkId,
+                UserId = userId,
+                LikedAt = DateTime.UtcNow
+            });
+        }
+
+        await _artworkRepository.UpdateAsync(artwork);
+        return existingLike == null; // returns true if liked, false if unliked
     }
 
     public async Task<ArtworkDTO> CreateArtwork(CreateArtworkRequest request)

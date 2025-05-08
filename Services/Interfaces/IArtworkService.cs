@@ -9,6 +9,7 @@ public interface IArtworkService
     Task<List<ArtworkDTO>> GetArtworks(ArtworkFilterDTO filter);
     Task<ArtworkDTO?> GetArtworkById(int id);
     Task<List<ArtworkDTO>> GetArtworksByCategory(int categoryId);
+    Task<bool> ToggleArtworkLike(int artworkId);
     Task<ArtworkDTO> CreateArtwork(CreateArtworkRequest request);
     Task<ArtworkDTO> UpdateArtwork(int id, UpdateArtworkRequest request);
     Task<ArtworkDTO> DeleteArtwork(int id);
