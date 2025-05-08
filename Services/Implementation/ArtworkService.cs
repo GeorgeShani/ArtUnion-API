@@ -140,7 +140,7 @@ public class ArtworkService : IArtworkService
         {
             await _emailService.SendEmailAsync(
                 subscriber.Email,
-                "New Artwork Published",
+                $"🆕 New Artwork by {artist.FirstName} {artist.LastName}: \"{createdArtwork.Title}\"",
                 EmailTemplates.NewArtworkNotification(subscriber, artist, createdArtwork)
             );
         } 

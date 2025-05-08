@@ -59,10 +59,12 @@ public class AuthService : IAuthService
         user.VerificationCode = VerificationCodeGenerator.Generate6DigitCode();
         user.CodeDeadline = DateTime.UtcNow.AddDays(1);
         
+        var userFullName = $"{user.FirstName} {user.LastName}";
+        
         await _userRepository.CreateAsync(user);
         await _emailService.SendEmailAsync(
             user.Email, 
-            "Welcome to ArtUnion 🎨 – Let’s Verify Your Email",
+            $"🚀 Welcome to ArtUnion, {userFullName}! Let’s Get Your Account Verified",
             EmailTemplates.VerifyEmail(user)
         );
         

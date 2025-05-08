@@ -57,7 +57,7 @@ public class WeeklyDigestService : IWeeklyDigestService
                 // Send email
                 await _emailService.SendEmailAsync(
                     user.Email, 
-                    "Weekly Digest: Your Top 10 Artworks of the Week",
+                    "🖼️ Your Weekly Art Highlights – Top 10 Picks You Shouldn't Miss!",
                     emailBody
                 );
             }
