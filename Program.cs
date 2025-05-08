@@ -43,17 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-    
-    recurringJobManager.AddOrUpdate<IWeeklyDigestService>(
-        "weekly-digest-job",
-        service => service.SendWeeklyDigestAsync(),
-        Cron.Weekly(DayOfWeek.Monday, 8)
-    );
-}
-
+app.ConfigureRecurringJobs();
 app.UseHangfireDashboard();
 app.UseHttpsRedirection();
 app.UseAuthentication();

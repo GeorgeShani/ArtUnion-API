@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ArtUnion_API.DTOs;
 using ArtUnion_API.Models;
-using ArtUnion_API.Requests.POST;
 using ArtUnion_API.Requests.PUT;
+using ArtUnion_API.Requests.POST;
 
 namespace ArtUnion_API.Helpers;
 
@@ -31,8 +31,11 @@ public class MappingProfile : Profile
         CreateMap<UpdateArtworkRequest, Artwork>();
         CreateMap<Artwork, ArtworkDTO>();
         
-        CreateMap<Category, CategoryDTO>();
+        CreateMap<CreateCritiqueRequest, Critique>();
+        CreateMap<UpdateCritiqueRequest, Critique>();
+        CreateMap<Critique, CritiqueDTO>();
         
         CreateMap<Subscription, SubscriptionDTO>();
+        CreateMap<Category, CategoryDTO>();
     }
 }
