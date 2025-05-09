@@ -245,7 +245,7 @@ namespace ArtUnion_API.Migrations
                     b.HasOne("ArtUnion_API.Models.User", "Artist")
                         .WithMany("Artworks")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtUnion_API.Models.Category", "Category")
@@ -277,7 +277,7 @@ namespace ArtUnion_API.Migrations
                     b.HasOne("ArtUnion_API.Models.User", "User")
                         .WithMany("LikedArtworks")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Artwork");
@@ -296,7 +296,7 @@ namespace ArtUnion_API.Migrations
                     b.HasOne("ArtUnion_API.Models.User", "Critic")
                         .WithMany("Critiques")
                         .HasForeignKey("CriticId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Artwork");
@@ -320,13 +320,12 @@ namespace ArtUnion_API.Migrations
                     b.HasOne("ArtUnion_API.Models.User", "Artist")
                         .WithMany("Followers")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArtUnion_API.Models.User", "Subscriber")
                         .WithMany("Following")
                         .HasForeignKey("SubscriberId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Artist");
