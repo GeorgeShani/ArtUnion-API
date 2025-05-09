@@ -61,6 +61,7 @@ public class ArtworkController : ControllerBase
     }
 
     [HttpPost("{artworkId:int}/like")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> ToggleArtworkLike(int artworkId)
     {
         try

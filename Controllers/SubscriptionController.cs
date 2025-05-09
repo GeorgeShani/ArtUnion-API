@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ArtUnion_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArtUnion_API.Controllers;
 
@@ -30,6 +31,7 @@ public class SubscriptionController : ControllerBase
     }
 
     [HttpGet("following")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> GetUserSubscriptions()
     {
         try
@@ -44,6 +46,8 @@ public class SubscriptionController : ControllerBase
     }
 
     [HttpPost("{artistId:int}")]
+    [Authorize(Roles = "Artist, Critic")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> CreateSubscription(int artistId) 
     {
         try
@@ -65,6 +69,8 @@ public class SubscriptionController : ControllerBase
     }
     
     [HttpDelete("{artistId:int}")]
+    [Authorize(Roles = "Artist, Critic")]
+    [Authorize(Policy = "EmailVerified")]
     public async Task<IActionResult> DeleteSubscription(int artistId)
     {
         try
