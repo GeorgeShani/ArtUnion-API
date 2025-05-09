@@ -81,18 +81,18 @@ public class DataContext : DbContext
             .HasForeignKey(c => c.CriticId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // Subscription -> Subscriber (User): Cascade (when User is deleted, delete their subscriptions)
+        // Subscription -> Subscriber (User): ClientSetNull (prevents multiple cascade paths error)
         modelBuilder.Entity<Subscription>()
             .HasOne(s => s.Subscriber)
             .WithMany(u => u.Following)
             .HasForeignKey(s => s.SubscriberId)
-            .OnDelete(DeleteBehavior.ClientSetNull); // Changed from Cascade to ClientSetNull
+            .OnDelete(DeleteBehavior.ClientSetNull); // Uses NO ACTION in database but EF Core handles deletion
         
         // Subscription -> Artist (User): Cascade (when User is deleted, delete subscriptions to them)
         modelBuilder.Entity<Subscription>()
             .HasOne(s => s.Artist)
             .WithMany(u => u.Followers)
             .HasForeignKey(s => s.ArtistId)
-            .OnDelete(DeleteBehavior.Cascade); // Keep as Cascade
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
