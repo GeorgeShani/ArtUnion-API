@@ -125,11 +125,11 @@ public static class EmailTemplates
               <h1 style="font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: bold; color: #6d28d9; margin: 0;">Art<span style="color: #7c3aed;">Union</span></h1>
             </div>
             <div style="padding: 30px 20px; background-color: #ffffff;">
-              <h1 style="font-family: 'Montserrat', sans-serif; color: #4c1d95; font-size: 20px; margin-top: 0; margin-bottom: 20px;">David Kim Just Published New Artwork</h1>
+              <h1 style="font-family: 'Montserrat', sans-serif; color: #4c1d95; font-size: 20px; margin-top: 0; margin-bottom: 20px;">{artist.FirstName} {artist.LastName} Just Published New Artwork</h1>
               <p style="margin-bottom: 16px; line-height: 1.7;">Hello {user.FirstName} {user.LastName},</p>
               <p style="margin-bottom: 16px; line-height: 1.7;">An artist you follow has just shared a new masterpiece with the world!</p>
               <div style="margin-bottom: 30px; border: 1px solid #f3f4f6; border-radius: 8px; overflow: hidden;">
-                <img src="{artwork.ImageUrl}" alt="{artwork.Title}" style="width: 100%; max-height: 300px; object-fit: cover;">
+                <img src="{artwork.ImageUrl}" alt="{artwork.Title}" style="width: 100%; max-height: 400px; object-fit: cover;">
                 <div style="padding: 15px;">
                   <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: bold; color: #4c1d95; margin: 0 0 5px 0;">{artwork.Title}</h3>
                   <p style="font-size: 14px; color: #6b7280; margin: 0;">by {artist.FirstName} {artist.LastName}</p>

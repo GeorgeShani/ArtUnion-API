@@ -14,6 +14,7 @@ public class ArtworkService : IArtworkService
 {
     private readonly IRepository<Artwork> _artworkRepository;
     private readonly IRepository<User> _userRepository;
+    private readonly IRepository<Subscription> _subscriptionRepository;
     private readonly IValidator<CreateArtworkRequest> _createArtworkRequestValidator;
     private readonly IValidator<UpdateArtworkRequest> _updateArtworkRequestValidator;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -24,6 +25,7 @@ public class ArtworkService : IArtworkService
     public ArtworkService(
         IRepository<Artwork> artworkRepository, 
         IRepository<User> userRepository,
+        IRepository<Subscription> subscriptionRepository,
         IValidator<CreateArtworkRequest> createArtworkRequestValidator, 
         IValidator<UpdateArtworkRequest> updateArtworkRequestValidator, 
         IHttpContextAccessor httpContextAccessor,
@@ -33,6 +35,7 @@ public class ArtworkService : IArtworkService
     ) {
         _artworkRepository = artworkRepository;
         _userRepository = userRepository;
+        _subscriptionRepository = subscriptionRepository;
         _createArtworkRequestValidator = createArtworkRequestValidator;
         _updateArtworkRequestValidator = updateArtworkRequestValidator;
         _httpContextAccessor = httpContextAccessor;
@@ -166,10 +169,10 @@ public class ArtworkService : IArtworkService
         if (artist == null)
             throw new Exception("Artist not found.");
         
-        var subscribers = await _userRepository
-            .Query()
-            .Include(u => u.Following)
-            .Where(u => u.Following!.Any(f => f.ArtistId == request.ArtistId))
+        var subscribers = await _subscriptionRepository.Query()
+            .Include(s => s.Subscriber)
+            .Where(s => s.ArtistId == request.ArtistId)
+            .Select(s => s.Subscriber!)
             .ToListAsync();
         
         foreach (var subscriber in subscribers)
