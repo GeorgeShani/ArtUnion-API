@@ -60,8 +60,8 @@ public class ArtworkService : IArtworkService
         {
             var term = filter.SearchTerm.ToLower();
             query = query.Where(a => 
-                a.Title.ToLower().Contains(term) || 
-                (a.Description != null && a.Description.ToLower().Contains(term))
+                a.Title.Contains(term, StringComparison.CurrentCultureIgnoreCase) || 
+                (a.Description != null && a.Description.Contains(term, StringComparison.CurrentCultureIgnoreCase))
             );
         }
 
@@ -119,7 +119,7 @@ public class ArtworkService : IArtworkService
     
     public async Task<bool> ToggleArtworkLike(int artworkId)
     {
-        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst("id")?.Value;
+        var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst("id")?.Value;
         if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             throw new UnauthorizedAccessException("User is not authenticated.");
 
