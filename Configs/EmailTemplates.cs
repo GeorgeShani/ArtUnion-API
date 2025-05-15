@@ -164,7 +164,7 @@ public static class EmailTemplates
 
         foreach (var art in artworks)
         {
-            var artworkAvgRating = art.Critiques!.Average(critique => critique.Rating);
+            var artworkAvgRating = art.Critiques!.Count > 0 ? art.Critiques!.Average(critique => critique.Rating) : 0;
           
             artworksHtml.Append($"""
             <div style="margin-bottom: 30px; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden;">

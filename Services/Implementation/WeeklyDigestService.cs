@@ -77,33 +77,29 @@ public class WeeklyDigestService : IWeeklyDigestService
         var lastWeek = DateTime.UtcNow.AddDays(-7);
         
         var artworks = await _artworkRepository.Query()
+            // Only consider artworks created in the last 7 days
+            .Where(a => a.CreatedAt >= lastWeek)
+            
             // Eager load-related entities to avoid lazy loading performance hits
             .Include(a => a.Artist)        // Include the artist info (User)
             .Include(a => a.Likes)         // Include likes (ArtworkLike collection)
             .Include(a => a.Critiques)     // Include critiques (Critique collection)
             .Include(a => a.Category)      // Include category info (Category)
-
-            // Only consider artworks created in the last 7 days
-            .Where(a => a.CreatedAt >= lastWeek)
-            .ToListAsync();
-
-        return artworks
             .Select(a => new  // Project each artwork into an anonymous object with calculated values
             {
                 Artwork = a,
-                LikesCount = a.Likes!.Count,
-                CritiquesCount = a.Critiques!.Count,
+                LikesCount = a.Likes!.Count > 0 ? a.Likes!.Count : 0,
+                CritiquesCount = a.Critiques!.Count > 0 ? a.Critiques!.Count: 0,
                 
                 // If there are critiques, calculate the average rating (assuming 'Rating' exists)
-                AvgCritiqueRating = a.Critiques!.Any() ? a.Critiques.Average(c => c.Rating) : 0,
+                AvgCritiqueRating = a.Critiques!.Count > 0 ? a.Critiques.Average(c => c.Rating) : 0,
                 
                 // Calculate how many days have passed since creation
                 DaysSinceCreated = EF.Functions.DateDiffDay(a.CreatedAt, DateTime.Now)
             })
+            .ToListAsync();
 
-            // Move to in-memory LINQ to perform more complex calculations that EF Core can't translate to SQL
-            .AsEnumerable()
-
+        return artworks
             // Apply a scoring formula to determine popularity
             .Select(a => new
             {
