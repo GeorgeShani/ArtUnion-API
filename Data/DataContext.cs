@@ -13,9 +13,19 @@ public class DataContext : DbContext
     public DbSet<ArtworkLike> ArtworkLikes { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
     
+    private readonly string DatabaseUsername = Environment.GetEnvironmentVariable("AWS_RDS_DB_USERNAME")!;
+    private readonly string DatabasePassword = Environment.GetEnvironmentVariable("AWS_RDS_DB_PASSWORD")!;
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=ArtUnion");
+        optionsBuilder.UseSqlServer($"""
+            Server=artunion-database.cvuu4wuuidsg.eu-north-1.rds.amazonaws.com;
+            Database=ArtUnion;
+            User Id={DatabaseUsername};
+            Password={DatabasePassword};
+            TrustServerCertificate=True;    
+            Encrypt=False;
+        """);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder) 

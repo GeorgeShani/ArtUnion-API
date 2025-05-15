@@ -35,7 +35,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddJwtBearerAuthentication();
 builder.Services.AddAuthorizationConfiguration();
 builder.Services.AddHangfireConfiguration();
-builder.Services.AddHangfireServer(); 
 builder.Configuration.AddEnvironmentVariables();
 
 var app = builder.Build();
