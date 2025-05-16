@@ -23,7 +23,7 @@ ArtUnion API serves as the backend for a portfolio and criticism platform that a
 - **Design Patterns**: Repository Pattern
 - **Tools**:
   - 🔄 AutoMapper for object mapping
-  - ✅ Model validation
+  - ✅ FluentValidation for Model validation
   - 📄 Pagination for large data sets
   - 🛡️ Proper error handling and logging
 
