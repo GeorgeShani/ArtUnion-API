@@ -6,8 +6,7 @@ public static class AuthorizationConfig
     {
         services.AddAuthorizationBuilder()
             .AddPolicy("EmailVerified", policy =>
-            {
-                policy.RequireClaim("email_verified", "true");
-            });
+                policy.RequireClaim("email_verified", "true")
+            );
     }
 }
