@@ -13,9 +13,6 @@ public static class EmailTemplates
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
           <title>Verify Your ArtUnion Account</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f5f5;">
@@ -23,7 +20,7 @@ public static class EmailTemplates
             <div style="padding: 25px 20px; text-align: center; background-color: #f3e8ff; border-bottom: 2px solid #e9d5ff;">
               <h1 style="font-family: 'Playfair Display', sans-serif; font-size: 26px; font-weight: bold; color: #6d28d9; margin: 0; font-style: italic;">Art<span style="color: #7c3aed; font-style: italic;">Union</span></h1>
             </div>
-            <div style="padding: 30px 20px; background-color: #fcfaff; background-image: url('https://www.transparenttextures.com/patterns/watercolor.png');">
+            <div style="padding: 30px 20px; background-color: #fcfaff;">
               <h1 style="font-family: 'Playfair Display', sans-serif; color: #4c1d95; font-size: 24px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #e9d5ff; padding-bottom: 10px;">Verify Your ArtUnion Account</h1>
               <p style="margin-bottom: 16px; line-height: 1.7;">Hello {user.FirstName} {user.LastName},</p>
               <p style="margin-bottom: 16px; line-height: 1.7;">Thank you for joining our creative community! To complete your registration and start your artistic journey, please use the verification code below:</p>
@@ -59,9 +56,6 @@ public static class EmailTemplates
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
           <title>New Comment on "{artwork.Title}" - ArtUnion</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f5f5;">
@@ -114,9 +108,6 @@ public static class EmailTemplates
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
           <title>{artist.FirstName} {artist.LastName} Just Shared New Artwork - ArtUnion</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f5f5;">
@@ -184,9 +175,6 @@ public static class EmailTemplates
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
           <title>Weekly Art Digest - ArtUnion</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f5f5;">
