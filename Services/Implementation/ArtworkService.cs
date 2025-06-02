@@ -3,6 +3,7 @@ using FluentValidation;
 using ArtUnion_API.DTOs;
 using ArtUnion_API.Models;
 using ArtUnion_API.Configs;
+using System.Security.Claims;
 using ArtUnion_API.Requests.PUT;
 using ArtUnion_API.Requests.POST;
 using Microsoft.EntityFrameworkCore;
@@ -119,7 +120,7 @@ public class ArtworkService : IArtworkService
     
     public async Task<bool> ToggleArtworkLike(int artworkId)
     {
-        var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst("id")?.Value;
+        var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
             throw new UnauthorizedAccessException("User is not authenticated.");
 
